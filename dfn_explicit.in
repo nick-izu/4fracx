@@ -1,0 +1,183 @@
+# March 07, 2022
+# Nicholas Osuji, Uppsala University, Sweden
+#================================================
+
+SIMULATION
+  SIMULATION_TYPE SUBSURFACE
+  PROCESS_MODELS
+    SUBSURFACE_FLOW flow
+      MODE RICHARDS
+    SUBSURFACE_TRANSPORT transport
+      MODE GIRT 
+    /
+  /
+END
+
+SUBSURFACE
+DFN
+
+#=========================== discretization ===================================
+GRID
+  TYPE unstructured_explicit full_mesh_vol_area.uge 
+  GRAVITY 0.d0 0.d0 0.d0
+END
+
+
+#=========================== fluid properties =================================
+FLUID_PROPERTY
+  DIFFUSION_COEFFICIENT 1.d-9
+END
+
+DATASET Permeability
+  FILENAME dfn_properties.h5
+END
+
+#=========================== material properties ==============================
+MATERIAL_PROPERTY soil1
+  ID 1
+  POROSITY 0.25d0
+  TORTUOSITY 0.5d0
+  CHARACTERISTIC_CURVES default
+  PERMEABILITY
+    DATASET Permeability
+  /
+END
+
+
+#=========================== characteristic curves ============================
+CHARACTERISTIC_CURVES default
+  SATURATION_FUNCTION VAN_GENUCHTEN
+    M 0.5d0
+    ALPHA  1.d-4
+    LIQUID_RESIDUAL_SATURATION 0.1d0
+    MAX_CAPILLARY_PRESSURE 1.d8
+  /
+  PERMEABILITY_FUNCTION MUALEM_VG_LIQ
+    M 0.5d0
+    LIQUID_RESIDUAL_SATURATION 0.1d0
+  /
+END
+
+#=========================== output options ===================================
+OUTPUT
+  TIMES y 0.5 1 1.5 2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9 9.5 10 
+          10.5 11 11.5 12 12.5 13 13.5 14 14.5 15 15.5 16 16.5 17 17.5 
+          18 18.5 19 19.5 20 20.5 21 21.5 22 22.5 23 23.5 24 24.5 25 
+          25.5 26 26.5 27 27.5 28 28.5 29 29.5 30
+#  FORMAT TECPLOT BLOCK
+  PRINT_PRIMAL_GRID
+  FORMAT VTK
+  MASS_FLOWRATE
+  MASS_BALANCE
+  VARIABLES
+    LIQUID_PRESSURE
+    PERMEABILITY
+    CONCENTRATION
+  /
+END
+
+#=========================== times ============================================
+TIME
+  INITIAL_TIMESTEP_SIZE 2.5d-3 y
+  FINAL_TIME 30.d0 y            
+  MAXIMUM_TIMESTEP_SIZE 2.5d-1 y
+END
+
+# REFERENCE_PRESSURE 1500000.
+
+=========================== regions ==========================================
+REGION all
+  COORDINATES
+    -500.d0 -500.d0 -500.d0
+    500.d0 500.d0 500.d0
+  /
+END
+
+REGION inflow
+  FILE pboundary_left_w.ex
+END
+
+REGION outflow
+  FILE pboundary_right_e.ex
+END
+
+#=========================== flow conditions ==================================
+FLOW_CONDITION initial
+  TYPE
+     PRESSURE dirichlet 
+  /
+  PRESSURE 1.01325d6
+END
+
+
+FLOW_CONDITION outflow 
+  TYPE 
+     PRESSURE dirichlet
+  /
+  PRESSURE 1.d6
+END
+
+FLOW_CONDITION inflow
+  TYPE
+    PRESSURE dirichlet
+  /
+  PRESSURE 2.d6
+END
+
+#=========================== transport conditions =============================
+TRANSPORT_CONDITION initial
+  TYPE ZERO_GRADIENT
+  CONSTRAINT_LIST
+    0.d0 initial
+  /
+END
+
+TRANSPORT_CONDITION inject
+  TYPE DIRICHLET_ZERO_GRADIENT
+  CONSTRAINT_LIST
+    0.d0 inlet
+    0.005d0
+  /
+END
+
+#=========================== constraints ======================================
+CONSTRAINT initial
+  CONCENTRATIONS
+    Tracer 1.d-9  T
+  /
+END
+
+CONSTRAINT inlet
+  CONCENTRATIONS
+   Tracer 1.d-3  T
+  /
+END
+
+#=========================== condition couplers ===============================
+# initial condition
+INITIAL_CONDITION
+  FLOW_CONDITION initial
+  TRANSPORT_CONDITION initial
+  REGION All
+END
+
+BOUNDARY_CONDITION INFLOW 
+  FLOW_CONDITION inflow
+  TRANSPORT_CONDITION inject
+  REGION inflow
+END
+
+BOUNDARY_CONDITION OUTFLOW
+  FLOW_CONDITION outflow 
+  TRANSPORT_CONDITION inject
+  REGION outflow
+END
+
+#=========================== stratigraphy couplers ============================
+STRATA
+  REGION All 
+  MATERIAL soil1
+END
+
+END_SUBSURFACE
+
