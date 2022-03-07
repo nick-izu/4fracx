@@ -13,8 +13,12 @@ SIMULATION
       OPTIONS
       /
     /
+    /
+  CHECKPOINT
+    FORMAT HDF5
+    TIMES d 1000.0d0
+  /
 END
-
 
 SUBSURFACE
 
@@ -28,6 +32,7 @@ CHEMISTRY
   /
 END
 
+DFN
 #=========================== discretization ===================================
 GRID
   TYPE unstructured_explicit full_mesh_vol_area.uge 
