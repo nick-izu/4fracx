@@ -119,6 +119,31 @@ REGION outflow
   FILE pboundary_right_e.ex
 END
 
+#=========================== flow conditions ==================================
+FLOW_CONDITION initial
+  TYPE
+     PRESSURE dirichlet 
+  /
+  PRESSURE 1.01325d6
+END
+
+
+FLOW_CONDITION outflow 
+  TYPE 
+     PRESSURE dirichlet
+  /
+  PRESSURE 1.d6
+END
+
+FLOW_CONDITION inflow
+  TYPE
+    PRESSURE dirichlet
+  /
+  PRESSURE 2.d6
+END
+
+#============================ transport conditions ===============================
+
 TRANSPORT_CONDITION initial
   TYPE dirichlet 
     CONSTRAINT_LIST
@@ -144,29 +169,6 @@ CONSTRAINT inlet
   CONCENTRATIONS
     TRACER 1.d-3 T
   /
-END
-
-#=========================== flow conditions ==================================
-FLOW_CONDITION initial
-  TYPE
-     PRESSURE dirichlet 
-  /
-  PRESSURE 1.01325d6
-END
-
-
-FLOW_CONDITION outflow 
-  TYPE 
-     PRESSURE dirichlet
-  /
-  PRESSURE 1.d6
-END
-
-FLOW_CONDITION inflow
-  TYPE
-    PRESSURE dirichlet
-  /
-  PRESSURE 2.d6
 END
 
 #=========================== condition couplers ===============================
