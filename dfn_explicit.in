@@ -126,6 +126,23 @@ FLOW_CONDITION inflow
   PRESSURE 2.d6
 END
 
+#=========================== condition couplers ===============================
+# initial condition
+INITIAL_CONDITION
+  TRANSPORT_CONDITION initial
+  REGION All
+END
+
+BOUNDARY_CONDITION INFLOW 
+  TRANSPORT_CONDITION inject
+  REGION inflow
+END
+
+BOUNDARY_CONDITION OUTFLOW
+  TRANSPORT_CONDITION inject
+  REGION outflow
+END
+
 #=========================== transport conditions =============================
 TRANSPORT_CONDITION initial
   TYPE ZERO_GRADIENT
@@ -158,19 +175,16 @@ END
 #=========================== condition couplers ===============================
 # initial condition
 INITIAL_CONDITION
-  FLOW_CONDITION initial
   TRANSPORT_CONDITION initial
   REGION All
 END
 
 BOUNDARY_CONDITION INFLOW 
-  FLOW_CONDITION inflow
   TRANSPORT_CONDITION inject
   REGION inflow
 END
 
 BOUNDARY_CONDITION OUTFLOW
-  FLOW_CONDITION outflow 
   TRANSPORT_CONDITION inject
   REGION outflow
 END
