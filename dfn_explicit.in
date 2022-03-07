@@ -13,11 +13,6 @@ SIMULATION
       OPTIONS
       /
     /
-    /
-  CHECKPOINT
-    FORMAT HDF5
-    TIMES d 1000.0d0
-  /
 END
 
 SUBSURFACE
