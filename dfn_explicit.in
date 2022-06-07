@@ -17,10 +17,14 @@ END
 
 SUBSURFACE
 
+#=============================chemistry=========================================
 CHEMISTRY
   PRIMARY_SPECIES
-    TRACER
+    Tracer 1
   /
+  RADIOACTIVE_DECAY_REACTION
+  REACTION Tracer <-> Tracer 1
+  RATE_CONSTANT 6.93d-3 ! half life at 100 y
   OUTPUT
     TOTAL
     TRACER
@@ -42,7 +46,7 @@ END
 
 #=========================== fluid properties =================================
 FLUID_PROPERTY
-  DIFFUSION_COEFFICIENT 1.d-9
+  DIFFUSION_COEFFICIENT 1.6d-9
 END
 
 DATASET Permeability
@@ -52,8 +56,8 @@ END
 #=========================== material properties ==============================
 MATERIAL_PROPERTY soil1
   ID 1
-  POROSITY 0.25
-  TORTUOSITY 0.5d0
+  POROSITY 0.005
+  TORTUOSITY 0.2d0
   CHARACTERISTIC_CURVES default
   PERMEABILITY
     DATASET Permeability
@@ -92,17 +96,17 @@ END
 
 #=========================== times ============================================
 TIME
-  INITIAL_TIMESTEP_SIZE  1.d-8 s
-  FINAL_TIME 1000.d0 d
-  MAXIMUM_TIMESTEP_SIZE 10.d0 d
+  INITIAL_TIMESTEP_SIZE  1.d-8 y
+  FINAL_TIME 100000.d0 y
+  MAXIMUM_TIMESTEP_SIZE 1000.d0 y
   #STEADY_STATE
 END
 
 #=========================== regions ==========================================
 REGION All
   COORDINATES
-    -500.d0 -500.d0 -500.d0
-     500.d0  500.d0  500.d0
+    -1.d20 -1.d20 -1.d20
+     1.d20  1.d20  1.d20
   /
 END 
 
@@ -134,7 +138,7 @@ FLOW_CONDITION inflow
   TYPE
     PRESSURE dirichlet
   /
-  PRESSURE 2.d6
+  PRESSURE 1.001d6
 END
 
 #============================ transport conditions ===============================
