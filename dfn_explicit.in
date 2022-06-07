@@ -80,18 +80,24 @@ END
 
 #=========================== output options ===================================
 OUTPUT
-#  TIMES d 0.01 0.05 0.1 0.2 0.5 1
-   TIMES d 1 10 100 1000
-#  FORMAT TECPLOT BLOCK
-  PRINT_PRIMAL_GRID
+VELOCITY_AT_CENTER
   FORMAT VTK
   MASS_FLOWRATE
-  MASS_BALANCE
   VARIABLES
-    LIQUID_PRESSURE
+    MATERIAL_ID_KLUDGE_FOR_VISIT
     PERMEABILITY
     POROSITY
+    LIQUID_PRESSURE
   /
+  MASS_BALANCE_FILE
+    PERIODIC TIMESTEP 1
+    TOTAL_MASS_REGIONS
+      all
+      inflow
+      outflow
+    /
+  /
+  MASS_FLOWRATE
 END
 
 #=========================== times ============================================
@@ -123,7 +129,7 @@ FLOW_CONDITION initial
   TYPE
      PRESSURE dirichlet 
   /
-  PRESSURE 1.01325d6
+  PRESSURE 1.d6
 END
 
 
@@ -166,7 +172,7 @@ END
 
 CONSTRAINT inlet
   CONCENTRATIONS
-    TRACER 1.d-3 T
+    TRACER 1.d0 T
   /
 END
 
