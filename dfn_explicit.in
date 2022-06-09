@@ -10,7 +10,6 @@ SIMULATION
     /
     SUBSURFACE_TRANSPORT transport
       MODE GIRT
-      OPTIONS
       /
     /
 END
