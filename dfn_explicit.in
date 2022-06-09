@@ -9,7 +9,7 @@ SIMULATION
       MODE RICHARDS
     /
     SUBSURFACE_TRANSPORT transport
-      MODE GIRT
+      MODE GLOBAL_IMPLICIT
       /
     /
 END
@@ -21,9 +21,6 @@ CHEMISTRY
   PRIMARY_SPECIES
     Tracer 1
   /
-  RADIOACTIVE_DECAY_REACTION
-  REACTION Tracer <-> Tracer 1
-  RATE_CONSTANT 6.93d-3 ! half life at 100 y
   OUTPUT
     TOTAL
     TRACER
