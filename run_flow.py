@@ -62,4 +62,11 @@ rewrite_file(filename_aper,b)
 rewrite_file(filename_perm,perm,three=True)
 
 DFN.dfn_flow()
-DFN.dfn_trans()
+
+restart_file = "/dfnWorks/examples/4fracx/dfn_restart.in"
+
+DFN.pflotran(transient=True,restart=True,restart_file=restart_file)
+DFN.parse_pflotran_vtk_python()       
+DFN.pflotran_cleanup()
+DFN.pflotran_cleanup(index_finish=100,filename=restart_file)
+
