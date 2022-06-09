@@ -15,7 +15,7 @@ SIMULATION
     /
   /
 #  CHECKPOINT
-#    TIMES s 100.0d0
+#    TIMES s 10000.0d0
 #  /
   RESTART dfn_explicit-restart.h5 0.
 END
@@ -25,11 +25,11 @@ SUBSURFACE
 
 CHEMISTRY
   PRIMARY_SPECIES
-    TRACER
+    Tracer
   /
   OUTPUT
     TOTAL
-    TRACER
+    Tracer
   /
 END
 #=========================== discretization ===================================
@@ -47,7 +47,7 @@ END
 
 #=========================== fluid properties =================================
 FLUID_PROPERTY
-  DIFFUSION_COEFFICIENT 1.d-9
+  DIFFUSION_COEFFICIENT 1.6d-9
 END
 
 DATASET Permeability
@@ -57,8 +57,8 @@ END
 #=========================== material properties ==============================
 MATERIAL_PROPERTY soil1
   ID 1
-  POROSITY 0.25
-  TORTUOSITY 0.5d0
+  POROSITY 0.005
+  TORTUOSITY 0.2d0
   CHARACTERISTIC_CURVES default
   PERMEABILITY
     DATASET Permeability
@@ -98,17 +98,17 @@ END
 
 #=========================== times ============================================
 TIME
-  INITIAL_TIMESTEP_SIZE  1.d-8 s
-  FINAL_TIME 5.d5 s
-  MAXIMUM_TIMESTEP_SIZE 1.d3 s
+  INITIAL_TIMESTEP_SIZE  1.d-8 y
+  FINAL_TIME 1.d5 y
+  MAXIMUM_TIMESTEP_SIZE 1.d3 y
   #STEADY_STATE
 END
 
 #=========================== regions ==========================================
 REGION All
   COORDINATES
-    -5.d20 -5.d20 -5.d20
-    5.d20 5.d20 5.d20
+    -1.d20 -1.d20 -1.d20
+     1.d20  1.d20  1.d20
   /
 END 
 
@@ -137,13 +137,13 @@ END
 
 CONSTRAINT initial
   CONCENTRATIONS
-    TRACER 1.d-20 T
+    Tracer 1.d-20 T
   /
 END
 
 CONSTRAINT inlet
   CONCENTRATIONS
-    TRACER 1.d-3 T
+    Tracer 1.d0 T
   /
 END
 
@@ -152,7 +152,7 @@ FLOW_CONDITION initial
   TYPE
      PRESSURE dirichlet 
   /
-  PRESSURE 1.01325d6
+  PRESSURE 1.0d6
 END
 
 
@@ -167,7 +167,7 @@ FLOW_CONDITION inflow
   TYPE
     PRESSURE dirichlet
   /
-  PRESSURE 1.1d6
+  PRESSURE 1.001d6
 END
 
 #=========================== condition couplers ===============================
