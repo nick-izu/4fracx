@@ -9,7 +9,7 @@ SIMULATION
       MODE RICHARDS
     /
     SUBSURFACE_TRANSPORT transport
-      MODE GLOBAL_IMPLICIT
+      MODE GIRT
       /
     /
 END
